@@ -114,7 +114,7 @@ The web app allows users to:
 
 **Patrick Dhatemwa**
 *Data Science & Statistics Student | Strathmore University*
-📧 [patrick.dhatemwa@example.com](mailto:patrickdhatemwa7@gmail.com)
+📧 [patrickdhatemwa7@gmail.com](mailto:patrickdhatemwa7@gmail.com)
 🔗 [LinkedIn](https://www.linkedin.com/in/patrick-dhatemwa-64737b223/overlay/about-this-profile/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3B9dW79KHGSh2In5qfdalMPA%3D%3D)
 🔗 [GitHub](https://github.com/pdhatemwa)
 
