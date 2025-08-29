@@ -49,7 +49,7 @@ Other models (e.g., Random Forests, Linear Regression, LSTM) may be tested for c
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/inflation-predictor.git
+git clone https://github.com/pdhatemwa/inflation-predictor.git
 cd inflation-predictor
 ```
 

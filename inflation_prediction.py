@@ -57,58 +57,56 @@ plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(5))  # show every 5 yea
 plt.xticks(rotation=45)
 plt.show()
 
-# Step 9: Streamlit App
 st.title("Inflation Forecasting Tool")
 
-# Country selection (dropdown)
+# Step 9 : Streamlit app.
+# Country selection
 countries = df_long["Country Name"].unique()
 selected_country = st.sidebar.selectbox("Select Country", sorted(countries))
 
-# Filter dataset for chosen country
+# Filter dataset
 country_data = df_long[df_long["Country Name"] == selected_country].copy()
 
-# User inputs
-st.sidebar.header("Policy Inputs (not in dataset, for simulation only)")
+# User inputs (not yet integrated in model)
+st.sidebar.header("Policy Inputs (for simulation only)")
 quarter = st.sidebar.selectbox("Quarter", [1, 2, 3, 4])
 policy_rate = st.sidebar.number_input("Monetary Policy Rate (%)", 0.00, 25.00, 10.00, step=0.01, format="%.2f")
-exchange_rate = st.sidebar.number_input("Exchange Rate (Country Currency/USD)", 3000, 6000, 3700)
+exchange_rate = st.sidebar.number_input("Exchange Rate (Local/USD)", 3000, 6000, 3700)
 oil_price = st.sidebar.number_input("Global Oil Price (USD/barrel)", 20, 200, 80)
 food_index = st.sidebar.number_input("Food Price Index", 50, 200, 120)
 m2_growth = st.sidebar.number_input("Money Supply Growth (%)", -10, 30, 10)
 
-# Action button
+# Train model with caching to avoid retraining on every interaction.
+@st.cache_resource
+def train_model(X, y):
+    model = xgb.XGBRegressor(objective="reg:squarederror")
+    model.fit(X, y)
+    return model
+
+# Run forecast
 if st.button("Run Forecast"):
     if country_data.shape[0] < 5:
         st.warning("Not enough data to generate forecast for this country.")
     else:
-        # Train model only on selected country’s data
+        # Define features & target
         features = ["inflation_lag1", "inflation_lag4"]
         X = country_data[features]
         y = country_data["Inflation"]
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, shuffle=False, test_size=0.2)
-        model = xgb.XGBRegressor(objective="reg:squarederror")
-        model.fit(X_train, y_train)
+        # Train only once (cached)
+        model = train_model(X, y)
 
+        # Predict using last available data
         latest_data = country_data.tail(1)
         X_future = latest_data[["inflation_lag1", "inflation_lag4"]]
         prediction = model.predict(X_future)[0]
 
-        st.success(f"Predicted Inflation for {selected_country} (Quarterly %): {prediction:.4f}")
+        # Display one clean result
+        st.metric("Predicted Inflation (Quarterly %)", f"{prediction:.2f}")
 
-        # Show chart of actual inflation
+        # Show historical chart
         st.line_chart(country_data.set_index("Year")["Inflation"])
 
-
-# Prediction uses only lag features from dataset
-latest_data = df_long.tail(1)
-X_future = latest_data[["inflation_lag1", "inflation_lag4"]]
-prediction = model.predict(X_future)[0]
-
-st.metric("Predicted Inflation (Quarterly %)", f"{prediction:.2f}")
-
-# Show chart
-st.line_chart(df_long[["Year", "Inflation"]].set_index("Year"))
 
 
 
