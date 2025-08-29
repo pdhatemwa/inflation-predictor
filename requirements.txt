@@ -1,10 +1,6 @@
 seaborn
 matplotlib
-matplotlib.ticker
-ticker
-sklearn.model_selection 
-train_test_split
-sklearn.metrics 
+scikit-learn
 mean_absolute_error
 pandas
 numpy 
