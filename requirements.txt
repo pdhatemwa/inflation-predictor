@@ -1,7 +1,6 @@
 seaborn
 matplotlib
 scikit-learn
-mean_absolute_error
 pandas
 numpy 
 streamlit
