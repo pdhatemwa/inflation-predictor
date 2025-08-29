@@ -39,7 +39,7 @@ features = ["inflation_lag1", "inflation_lag4"]
 X = df_long[features]
 y = df_long["Inflation"]
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, shuffle=False, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, shuffle=False, test_size = 0.25)
 
 # Step 7: Train model
 model = xgb.XGBRegressor(objective = "reg:squarederror")
@@ -49,14 +49,6 @@ y_pred = model.predict(X_test)
 print("MAE:", mean_absolute_error(y_test, y_pred))
 
 # Step 8: Visualisation
-plt.figure(figsize=(10,6))
-plt.plot(df_long["Year"], df_long["Inflation"], marker="o", linestyle="-")
-plt.title("Inflation Rate Over Time", fontsize=14)
-plt.xlabel("Year")
-plt.ylabel("Inflation Rate (%)")
-plt.grid(True)
-plt.show()
-
 sns.lineplot(x="Year", y="Inflation", data=df_long, marker="o")
 plt.title("Inflation Rate Over Time", fontsize=14)
 plt.xlabel("Year")
