@@ -9,7 +9,7 @@ import streamlit as st
 import xgboost as xgb
 
 # Step 1: Load the data
-my_data = r"/Users/d/Desktop/world_inflation_data/Sheet 1-API_FP.CPI.TOTL.ZG_DS2_en_csv_v2_122376.csv"
+my_data = r"Sheet 1-API_FP.CPI.TOTL.ZG_DS2_en_csv_v2_122376.csv"
 df = pd.read_csv(my_data, skiprows=4)
 
 # Step 2: Reshape (melt) the wide format into long format
