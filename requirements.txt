@@ -1,0 +1,12 @@
+ seaborn
+matplotlib
+ matplotlib.ticker
+ ticker
+ sklearn.model_selection 
+ train_test_split
+ sklearn.metrics 
+ mean_absolute_error
+ pandas
+ numpy 
+ streamlit
+ xgboost
